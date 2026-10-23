@@ -49,8 +49,11 @@ namespace EA_ParkingGarageVGUppgift
                     break;
                 case 'B':
                     Console.WriteLine("How many seats for passengers does the bus have?");
-                    int numberOfPassengers = int.Parse(Console.ReadKey().KeyChar.ToString()); //CRK läser tangenten direkt, KC hämtar tecknet som matas in, TS gör en string som sedan koverteras till en int med IP
-                    //använda en TryParse istl? mer säker felhantering?
+                    int numberOfPassengers;
+                    while(!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1) //Körs så länge inmatningen inte är godkänt positivt tal.
+                    {
+                        Console.WriteLine("Please enter av valid number for the amount of passenger seats in the bus.");
+                    }
 
                     Bus bus = new Bus(numberOfPassengers);
                     vehicles.Add(bus);
@@ -62,7 +65,7 @@ namespace EA_ParkingGarageVGUppgift
             }
         }
 
-        class Car : Vehicle
+        class Car : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }    //Jag vill inte att antalet platser ska gå att ändra -> get;
             public bool IsElectricCar { get; set; }
@@ -74,7 +77,7 @@ namespace EA_ParkingGarageVGUppgift
             }
         }
 
-        class Motorcycle : Vehicle
+        class Motorcycle : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }
             public string MotorcycleBrand { get; set; }
@@ -86,7 +89,7 @@ namespace EA_ParkingGarageVGUppgift
             }
         }
 
-        class Bus : Vehicle
+        class Bus : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }
             public int NumberOfPassengers { get; set; }
