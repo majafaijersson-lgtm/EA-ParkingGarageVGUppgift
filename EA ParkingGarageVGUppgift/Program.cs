@@ -4,7 +4,18 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            //inparametrar till Vehicle ellbil bool, motorcycle(märke string), buss(antal passagerare int)
+            //Villkor för att Vehicle ska vara av någon subclass - inget Vehicle vehicle får parkeras!
+            //Använd Någon annan collection för parkeringen?
+            //Grafisk representation hade varit kul?
+            List<Vehicle> vehicles = new List<Vehicle>();
+
+            Console.WriteLine("Welcome to the Parking Garage!\n------------------------------");
+
+            Console.WriteLine("What kind of vehicle do you want to park?\nPress: \"C\" for car, \"M\" for motorcycle or \"B\" for bus.");
+            char vehicleType = Console.ReadKey().KeyChar;
+            Vehicle.ChooseVehicle(vehicleType, vehicles);
+
         }
     }
 }
