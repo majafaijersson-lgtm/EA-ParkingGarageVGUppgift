@@ -22,15 +22,21 @@ namespace EA_ParkingGarageVGUppgift
 
             switch (vehicleType)
             {
-                case 'C':
+                case 'c':
                     Console.WriteLine("Is your car an electric car? Press \"Y\" if it is. Press \"N\" if it is not.");
-                    char isElctricCar = Console.ReadKey().KeyChar;
+                    char isElectricCar = Console.ReadKey().KeyChar;
 
-                    if (isElctricCar == 'y')
+                    while (isElectricCar != 'y' && isElectricCar != 'n')//Kör while tills inmatningen blir Y eller N
+                    { 
+                            Console.WriteLine("Please enter \"N\" for no, or \"Y\" yes.");
+                            isElectricCar = Console.ReadKey().KeyChar;
+                    }
+
+                    if (isElectricCar == 'y')
                     {
                         electricCar = true;
                     }
-                    if (isElctricCar == 'n')
+                    if (isElectricCar == 'n')
                     {
                         electricCar = false;
                     }
@@ -39,7 +45,7 @@ namespace EA_ParkingGarageVGUppgift
                     vehicles.Add(car);
 
                     break;
-                case 'M':
+                case 'm':
                     Console.WriteLine("What kind of brand is your motorcycle?");
                     string motorcycleBrand = Console.ReadLine();
 
@@ -47,7 +53,7 @@ namespace EA_ParkingGarageVGUppgift
                     vehicles.Add(motorcycle);
 
                     break;
-                case 'B':
+                case 'b':
                     Console.WriteLine("How many seats for passengers does the bus have?");
                     int numberOfPassengers;
                     while(!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1) //Körs så länge inmatningen inte är godkänt positivt tal.
