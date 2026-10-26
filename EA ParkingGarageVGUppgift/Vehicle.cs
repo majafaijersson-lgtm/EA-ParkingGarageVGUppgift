@@ -9,18 +9,20 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
         public string RegPlate { get; }                     //Endast get;
         public string VehicleColor { get; }
         public virtual double ParkingSpotsUsed { get; }     //Override i subclasser. För att inte behöva kontrollera vilken typ subclassen är innan man komma åt pSpots
-        public int parkedInNr { get; set; }
+
+        public static int ParkedInNr { get; set; } = 0;
 
         public Vehicle()
         {
             RegPlate = Helpers.GetRegPlate();
             VehicleColor = Helpers.GetVehicleColor();
-            parkedInNr = 0;
         }
 
-        public static void ChooseVehicle(char chooseType, List<Vehicle> vehicles, SortedList<double, string> parkingSpaces) //gör virtual?
+        public static void ChooseVehicle(char chooseType, List<Vehicle> vehicles) //gör virtual?
         {
             bool electricCar = false;
+            ParkingGarage parkingGarage = new ParkingGarage();//skapa instans för att kunna anropa senare i metoden
+            Vehicle vehicle = new Vehicle();
 
             switch (chooseType)
             {
@@ -43,18 +45,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                         electricCar = false;
                     }
 
-                    Car car = new Car(electricCar);
-                    vehicles.Add(car);
-                    parkingSpaces.Add(car.ParkingSpotsUsed, car.RegPlate);
+                    vehicle = new Car(electricCar);
                     break;
 
                 case 'm':
                     Console.WriteLine("What kind of brand is your motorcycle?");
-                    string motorcycleBrand = Console.ReadLine();
-
-                    Motorcycle motorcycle = new Motorcycle(motorcycleBrand);
-                    vehicles.Add(motorcycle);
-                    parkingSpaces.Add(motorcycle.ParkingSpotsUsed, motorcycle.RegPlate);
+                    string motorcycleBrand = Console.ReadLine(); //randomisera ett märke?
+                    vehicle = new Motorcycle(motorcycleBrand);
                     break;
 
                 case 'b':
@@ -65,15 +62,15 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                         Console.WriteLine("Please enter av valid number for the amount of passenger seats in the bus.");
                     }
 
-                    Bus bus = new Bus(numberOfPassengers);
-                    vehicles.Add(bus);
-                    parkingSpaces.Add(bus.ParkingSpotsUsed, bus.RegPlate);
+                    vehicle = new Bus(numberOfPassengers);
                     break;
 
                 default:
                     Console.WriteLine("Inmatningen blev fel. Försök igen.");
                     break;
             }
+            vehicles.AddRange(vehicle);
+            parkingGarage.ParkVehicle(vehicles);//anropa via parkingGarage inte via klassnamnet ParkingGarage.
         }
 
         private class Car : Vehicle //Är private så kan inte skapas utanför klassen
