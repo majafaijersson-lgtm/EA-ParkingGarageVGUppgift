@@ -4,13 +4,12 @@ using System.Text;
 
 namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
 {
-    internal class Vehicle
+    public class Vehicle
     {
         public string RegPlate { get; }                     //Endast get;
         public string VehicleColor { get; }
         public virtual double ParkingSpotsUsed { get; }     //Override i subclasser. För att inte behöva kontrollera vilken typ subclassen är innan man komma åt pSpots
-
-        public static int ParkedInNr { get; set; } = 0;
+        public int ParkedInNr { get; set; } = 0;
 
         public Vehicle()
         {
@@ -69,14 +68,14 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                     Console.WriteLine("Inmatningen blev fel. Försök igen.");
                     break;
             }
-            vehicles.AddRange(vehicle);
+            vehicles.Add(vehicle);
             parkingGarage.ParkVehicle(vehicles);//anropa via parkingGarage inte via klassnamnet ParkingGarage.
         }
 
-        private class Car : Vehicle //Är private så kan inte skapas utanför klassen
+        public class Car : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }    //Jag vill inte att antalet platser ska gå att ändra -> get;
-            internal bool IsElectricCar { get; set; }
+            public bool IsElectricCar { get; set; }
 
             internal Car(bool electricCar)
             {
@@ -85,7 +84,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
         }
 
-       private class Motorcycle : Vehicle //Är private så kan inte skapas utanför klassen
+       public class Motorcycle : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }
             public string MotorcycleBrand { get; set; }
@@ -97,7 +96,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
         }
 
-        private class Bus : Vehicle //Är private så kan inte skapas utanför klassen
+        public class Bus : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }
             public int NumberOfPassengers { get; set; }
