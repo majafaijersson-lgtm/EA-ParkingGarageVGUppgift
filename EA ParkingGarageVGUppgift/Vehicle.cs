@@ -84,7 +84,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
         }
 
-       public class Motorcycle : Vehicle //Är private så kan inte skapas utanför klassen
+        public class Motorcycle : Vehicle //Är private så kan inte skapas utanför klassen
         {
             public override double ParkingSpotsUsed { get; }
             public string MotorcycleBrand { get; set; }

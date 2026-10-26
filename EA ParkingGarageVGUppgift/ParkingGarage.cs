@@ -8,7 +8,6 @@ namespace EA_ParkingGarageVGUppgift
     {
         public double AmountParkingSpaces { get; } = 15; //Endast get;
         public double AvailableParkingSpaces { get; set; } = 15;
-
         public Dictionary<double, double> ParkingSpaces { get; set; } = // 
         new Dictionary<double, double>
         {
@@ -39,28 +38,30 @@ namespace EA_ParkingGarageVGUppgift
                             ParkingSpaces[j] = 0; //pplatsen blir upptagen och i nästa loop fylls nästa plats med remaining om det kvarstår.
                             vehicles[i].ParkedInNr = j;
                         }
-                    }
-                    
+                    } 
                 }
             }
         }
             
         public static void PrintParkedInfo(List<Vehicle> vehicles)
         {
-            for (int i = 0; i < vehicles.Count; i++)//Utskrift över alla parkerade fordon.
+            for (int i = 0; i < vehicles.Count; i++)
             {
-                Console.WriteLine($"Plats {vehicles[i].ParkedInNr}  {vehicles[i].GetType().Name}    {vehicles[i].RegPlate} {vehicles[i].VehicleColor}   ");
-                if (vehicles[i] is Vehicle.Car car)
+                if (vehicles[i].ParkedInNr != 0) //Behöver jag denna? det ska vara om jag väljer att inte ta bort de från vehicles efter att de checkat ut från park.
                 {
-                    Console.Write($"{car.IsElectricCar}");
-                }
-                if (vehicles[i] is Vehicle.Bus bus)
-                {
-                    Console.Write($"{bus.NumberOfPassengers}");
-                }
-                if (vehicles[i] is Vehicle.Motorcycle motorcycle)
-                {
-                    Console.Write($"{motorcycle.MotorcycleBrand}");
+                    Console.WriteLine($"Plats {vehicles[i].ParkedInNr}  {vehicles[i].GetType().Name}    {vehicles[i].RegPlate} {vehicles[i].VehicleColor}   ");
+                    if (vehicles[i] is Vehicle.Car car)
+                    {
+                        Console.Write($"{car.IsElectricCar}");
+                    }
+                    if (vehicles[i] is Vehicle.Bus bus)
+                    {
+                        Console.Write($"{bus.NumberOfPassengers}");
+                    }
+                    if (vehicles[i] is Vehicle.Motorcycle motorcycle)
+                    {
+                        Console.Write($"{motorcycle.MotorcycleBrand}");
+                    }
                 }
             }
         }
