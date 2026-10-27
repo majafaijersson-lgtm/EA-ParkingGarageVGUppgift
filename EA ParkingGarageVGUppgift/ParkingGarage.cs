@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Channels;
 
 namespace EA_ParkingGarageVGUppgift
 {
@@ -19,27 +20,38 @@ namespace EA_ParkingGarageVGUppgift
         {
             for(int i = 0; i < vehicles.Count; i++)
             {
-                if (vehicles[i].ParkedInNr[0] == 0 && TotalParkingSpaces >= vehicles[i].ParkingSpotsUsed)//Om fordondet inte är parkerat.
+                if (vehicles[i].ParkedInNr.Count == 0) 
                 {
                     double remaining = vehicles[i].ParkingSpotsUsed;//ex remaining = 2 för en buss
+                    double available = 0; //Kollar hur många lediga platser det finns kvar
 
-                    for (int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)//> -1 för motorcykel?
+                    foreach(double parkingSpace in ParkingSpaces.Values) //Kontroll om plats finns, INNAN ändring sker. För varje värde i dict, lägg till ledig plats(1) i available 
+                    {
+                        available += parkingSpace; 
+                    }
+                    if (available < remaining) 
+                    {
+                        Console.WriteLine("Det fanns tyvärr inte tillräckligt med plats för ditt fordon i phuset. Välkommen åter!");
+                        continue; 
+                    } //Om antalet lediga platser inte rymmer fordonet, fortsätt for-loopen.
+
+                    for (int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)
                     {
                         if (ParkingSpaces[j] == 0) continue;//Om patsen är upptagen(0).
+                        if (vehicles[i] is Vehicle.Bus && ParkingSpaces[j] < 1) continue;
+
                         if (ParkingSpaces[j] >= remaining)//Om fordonet får plats i den rutan
                         {
                             ParkingSpaces[j] -= remaining;
-                            vehicles[i].ParkedInNr = j;//Sparar vilket nummer vehicle parkerat på.
+                            vehicles[i].ParkedInNr.Add(j);//Sparar vilket nummer vehicle parkerat på.
                             remaining = 0;
                         }
                         else //Om fordonet behöver mer plats än den som finns tillgänlig på[j]?
                         {
                             remaining -= ParkingSpaces[j];
                             ParkingSpaces[j] = 0; //pplatsen blir upptagen och i nästa loop fylls nästa plats med remaining om det kvarstår.
-                            vehicles[i].ParkedInNr = j;
+                            vehicles[i].ParkedInNr.Add(j);
                         }
-
-                        //använd TotalParkingsSpaces - använd plats/platser
                     }
                 }
             }
@@ -49,9 +61,15 @@ namespace EA_ParkingGarageVGUppgift
         {
             for (int i = 0; i < vehicles.Count; i++)
             {
-                if (vehicles[i].ParkedInNr[0] != 0) //Behöver jag denna? det ska vara om jag väljer att inte ta bort de från vehicles efter att de checkat ut från park.
+                if (vehicles[i].ParkedInNr.Count > 0) //Om fordonet inte är parkerat, men ej borttagen från List 
                 {
-                    Console.Write($"Plats. {vehicles[i].ParkedInNr}: {vehicles[i].GetType().Name} - {vehicles[i].RegPlate} - {vehicles[i].VehicleColor} - ");
+                    Console.Write("Plats. ");
+                    foreach (int pNr in vehicles[i].ParkedInNr)
+                    {
+                        Console.Write($"{pNr}");
+                    }
+                    Console.Write($": {vehicles[i].GetType().Name} - {vehicles[i].RegPlate} - {vehicles[i].VehicleColor} - ");
+
                     if (vehicles[i] is Vehicle.Car car)
                     {
                         Console.Write(car.IsElectricCar ? "electric car." : "not an electric car.");
@@ -60,7 +78,7 @@ namespace EA_ParkingGarageVGUppgift
                     {
                         Console.Write($"{bus.NumberOfPassengers}.");
                     }
-                    if (vehicles[i] is Vehicle.Motorcycle motorcycle)
+                    if (vehicles[i] is Vehicle.Motorcycle motorcycle) 
                     {
                         Console.Write($"{motorcycle.MotorcycleBrand}.");
                     }
