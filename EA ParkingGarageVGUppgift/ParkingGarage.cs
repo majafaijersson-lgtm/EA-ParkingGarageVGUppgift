@@ -7,7 +7,7 @@ namespace EA_ParkingGarageVGUppgift
     internal class ParkingGarage
     {
         public double AmountParkingSpaces { get; } = 15; //Endast get;
-        public double AvailableParkingSpaces { get; set; } = 15;
+        public double TotalParkingSpaces { get; set; } = 15;
         public Dictionary<double, double> ParkingSpaces { get; set; } = //hör endast ihop med ParkVehicle för att hålla koll på räkning?
         new Dictionary<double, double>
         {
@@ -19,17 +19,17 @@ namespace EA_ParkingGarageVGUppgift
         {
             for(int i = 0; i < vehicles.Count; i++)
             {
-                if (vehicles[i].ParkedInNr == 0 && AvailableParkingSpaces > vehicles[i].ParkingSpotsUsed)//Om fordondet inte är parkerat.
+                if (vehicles[i].ParkedInNr[0] == 0 && TotalParkingSpaces >= vehicles[i].ParkingSpotsUsed)//Om fordondet inte är parkerat.
                 {
                     double remaining = vehicles[i].ParkingSpotsUsed;//ex remaining = 2 för en buss
 
-                    for(int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)
+                    for (int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)//> -1 för motorcykel?
                     {
-                        if (ParkingSpaces[j] == 0) continue;
+                        if (ParkingSpaces[j] == 0) continue;//Om patsen är upptagen(0).
                         if (ParkingSpaces[j] >= remaining)//Om fordonet får plats i den rutan
                         {
                             ParkingSpaces[j] -= remaining;
-                            vehicles[i].ParkedInNr = j;
+                            vehicles[i].ParkedInNr = j;//Sparar vilket nummer vehicle parkerat på.
                             remaining = 0;
                         }
                         else //Om fordonet behöver mer plats än den som finns tillgänlig på[j]?
@@ -38,7 +38,9 @@ namespace EA_ParkingGarageVGUppgift
                             ParkingSpaces[j] = 0; //pplatsen blir upptagen och i nästa loop fylls nästa plats med remaining om det kvarstår.
                             vehicles[i].ParkedInNr = j;
                         }
-                    } 
+
+                        //använd TotalParkingsSpaces - använd plats/platser
+                    }
                 }
             }
         }
@@ -47,7 +49,7 @@ namespace EA_ParkingGarageVGUppgift
         {
             for (int i = 0; i < vehicles.Count; i++)
             {
-                if (vehicles[i].ParkedInNr != 0) //Behöver jag denna? det ska vara om jag väljer att inte ta bort de från vehicles efter att de checkat ut från park.
+                if (vehicles[i].ParkedInNr[0] != 0) //Behöver jag denna? det ska vara om jag väljer att inte ta bort de från vehicles efter att de checkat ut från park.
                 {
                     Console.Write($"Plats. {vehicles[i].ParkedInNr}: {vehicles[i].GetType().Name} - {vehicles[i].RegPlate} - {vehicles[i].VehicleColor} - ");
                     if (vehicles[i] is Vehicle.Car car)

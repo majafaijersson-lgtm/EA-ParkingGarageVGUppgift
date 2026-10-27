@@ -9,12 +9,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
         public string RegPlate { get; }                     //Endast get;
         public string VehicleColor { get; }
         public virtual double ParkingSpotsUsed { get; }     //Override i subclasser. För att inte behöva kontrollera vilken typ subclassen är innan man komma åt pSpots
-        public int ParkedInNr { get; set; } = 0;
+        public virtual List<int> ParkedInNr { get; set; }   //override från bus
 
         public Vehicle()
         {
             RegPlate = Helpers.GetRegPlate();
             VehicleColor = Helpers.GetVehicleColor();
+            ParkedInNr = new List<int>();
         }
 
         public static List<Vehicle> ChooseVehicle(char chooseType, List<Vehicle> vehicles) //gör virtual?
@@ -70,7 +71,6 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
             vehicles.Add(vehicle);
 
-            //parkingGarage.ParkVehicle(vehicles);//anropa via parkingGarage inte via klassnamnet ParkingGarage.
             return vehicles;
         }
 
@@ -102,11 +102,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
         {
             public override double ParkingSpotsUsed { get; }
             public int NumberOfPassengers { get; set; }
+            public override List<int> ParkedInNr { get; set; }
 
             public Bus(int numberOfPassengers)
             {
                 ParkingSpotsUsed = 2;
                 NumberOfPassengers = numberOfPassengers;
+                ParkedInNr = new List<int>();//skapar en lista
             }
         }
     }
