@@ -18,44 +18,65 @@ namespace EA_ParkingGarageVGUppgift
 
         public void ParkVehicle(List<Vehicle> vehicles)
         {
-            for(int i = 0; i < vehicles.Count; i++)
+            for (int i = 0; i < vehicles.Count; i++)
             {
-                if (vehicles[i].ParkedInNr.Count == 0) 
+                if (vehicles[i].ParkedInNr.Count > 0) continue;
+
+                double remaining = vehicles[i].ParkingSpotsUsed;
+                double available = 0;
+
+                foreach (double parkingSpace in ParkingSpaces.Values)
                 {
-                    double remaining = vehicles[i].ParkingSpotsUsed;//ex remaining = 2 för en buss
-                    double available = 0; //Kollar hur många lediga platser det finns kvar
+                    available += parkingSpace;
+                }
 
-                    foreach(double parkingSpace in ParkingSpaces.Values) //Kontroll om plats finns, INNAN ändring sker. För varje värde i dict, lägg till ledig plats(1) i available 
+                if (available < remaining)
+                {
+                    Console.WriteLine("Det fanns tyvärr inte tillräckligt med plats i p-huset. Välkommen åter!");
+                    continue;
+                }
+
+                if (vehicles[i] is Vehicle.Bus)
+                {
+                    int fullSpaces = 0;
+
+                    foreach (double parkingSpace in ParkingSpaces.Values)
                     {
-                        available += parkingSpace; 
+                        if (parkingSpace == 1)
+                            fullSpaces++;
                     }
-                    if (available < remaining) 
-                    {
-                        Console.WriteLine("Det fanns tyvärr inte tillräckligt med plats för ditt fordon i phuset. Välkommen åter!");
-                        continue; 
-                    } //Om antalet lediga platser inte rymmer fordonet, fortsätt for-loopen.
 
-                    for (int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)
+                    if (fullSpaces < 2)
                     {
-                        if (ParkingSpaces[j] == 0) continue;//Om patsen är upptagen(0).
-                        if (vehicles[i] is Vehicle.Bus && ParkingSpaces[j] < 1) continue;
+                        Console.WriteLine("Det fanns inte två hela parkeringsrutor för bussen.");
+                        continue;
+                    }
+                }
 
-                        if (ParkingSpaces[j] >= remaining)//Om fordonet får plats i den rutan
-                        {
-                            ParkingSpaces[j] -= remaining;
-                            vehicles[i].ParkedInNr.Add(j);//Sparar vilket nummer vehicle parkerat på.
-                            remaining = 0;
-                        }
-                        else //Om fordonet behöver mer plats än den som finns tillgänlig på[j]?
-                        {
-                            remaining -= ParkingSpaces[j];
-                            ParkingSpaces[j] = 0; //pplatsen blir upptagen och i nästa loop fylls nästa plats med remaining om det kvarstår.
-                            vehicles[i].ParkedInNr.Add(j);
-                        }
+                for (int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)
+                {
+                    if (ParkingSpaces[j] == 0)
+                        continue;
+
+                    if (vehicles[i] is Vehicle.Bus && ParkingSpaces[j] < 1)
+                        continue;
+
+                    if (ParkingSpaces[j] >= remaining)
+                    {
+                        ParkingSpaces[j] -= remaining;
+                        vehicles[i].ParkedInNr.Add(j);
+                        remaining = 0;
+                    }
+                    else
+                    {
+                        remaining -= ParkingSpaces[j];
+                        ParkingSpaces[j] = 0;
+                        vehicles[i].ParkedInNr.Add(j);
                     }
                 }
             }
         }
+
             
         public static void PrintParkedInfo(List<Vehicle> vehicles)
         {
