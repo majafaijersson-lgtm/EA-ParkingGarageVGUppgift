@@ -9,13 +9,20 @@
             //Grafisk representation hade varit kul?
 
             List<Vehicle> vehicles = new List<Vehicle>();
+            ParkingGarage parkingGarage = new ParkingGarage();
+
 
             while (true)
             {
+                
                 Console.WriteLine("Welcome to the Parking Garage!\n------------------------------");
                 Console.WriteLine("What kind of vehicle do you want to park?\nPress: \"C\" for car, \"M\" for motorcycle or \"B\" for bus.");
-                char chooseType = Console.ReadKey().KeyChar;
-                Vehicle.ChooseVehicle(chooseType, vehicles);
+                char chooseType = Console.ReadKey(true).KeyChar;//true = dölj inmatning?
+                vehicles = Vehicle.ChooseVehicle(chooseType, vehicles); //Lägger till nytt fordon i listan vehicles
+                parkingGarage.ParkVehicle(vehicles);//anropa med listan vehicles via parkingGarage inte via klassnamnet ParkingGarage för att se alla parkerade bilar. Ändringar i dicitonary görs i den instansen.
+                ParkingGarage.PrintParkedInfo(vehicles);
+
+                
             }
 
         }

@@ -8,7 +8,7 @@ namespace EA_ParkingGarageVGUppgift
     {
         public double AmountParkingSpaces { get; } = 15; //Endast get;
         public double AvailableParkingSpaces { get; set; } = 15;
-        public Dictionary<double, double> ParkingSpaces { get; set; } = // 
+        public Dictionary<double, double> ParkingSpaces { get; set; } = //hör endast ihop med ParkVehicle för att hålla koll på räkning?
         new Dictionary<double, double>
         {
             { 1, 1 }, { 2, 1 }, { 3, 1 }, { 4, 1 }, { 5, 1 }, { 6, 1 }, { 7, 1 }, { 8, 1 }, { 9, 1 }, { 10, 1 }, { 11, 1 }, { 12, 1 }, { 13, 1 }, { 14, 1 }, { 15, 1 }
@@ -49,19 +49,20 @@ namespace EA_ParkingGarageVGUppgift
             {
                 if (vehicles[i].ParkedInNr != 0) //Behöver jag denna? det ska vara om jag väljer att inte ta bort de från vehicles efter att de checkat ut från park.
                 {
-                    Console.WriteLine($"Plats {vehicles[i].ParkedInNr}  {vehicles[i].GetType().Name}    {vehicles[i].RegPlate} {vehicles[i].VehicleColor}   ");
+                    Console.Write($"Plats. {vehicles[i].ParkedInNr}: {vehicles[i].GetType().Name} - {vehicles[i].RegPlate} - {vehicles[i].VehicleColor} - ");
                     if (vehicles[i] is Vehicle.Car car)
                     {
-                        Console.Write($"{car.IsElectricCar}");
+                        Console.Write(car.IsElectricCar ? "electric car." : "not an electric car.");
                     }
                     if (vehicles[i] is Vehicle.Bus bus)
                     {
-                        Console.Write($"{bus.NumberOfPassengers}");
+                        Console.Write($"{bus.NumberOfPassengers}.");
                     }
                     if (vehicles[i] is Vehicle.Motorcycle motorcycle)
                     {
-                        Console.Write($"{motorcycle.MotorcycleBrand}");
+                        Console.Write($"{motorcycle.MotorcycleBrand}.");
                     }
+                    Console.WriteLine();
                 }
             }
         }

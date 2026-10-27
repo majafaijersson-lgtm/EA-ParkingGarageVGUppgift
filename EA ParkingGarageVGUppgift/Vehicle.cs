@@ -17,17 +17,17 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             VehicleColor = Helpers.GetVehicleColor();
         }
 
-        public static void ChooseVehicle(char chooseType, List<Vehicle> vehicles) //gör virtual?
+        public static List<Vehicle> ChooseVehicle(char chooseType, List<Vehicle> vehicles) //gör virtual?
         {
             bool electricCar = false;
-            ParkingGarage parkingGarage = new ParkingGarage();//skapa instans för att kunna anropa senare i metoden
+            //ParkingGarage parkingGarage = new ParkingGarage();//skapa instans för att kunna anropa senare i metoden
             Vehicle vehicle = new Vehicle();
 
             switch (chooseType)
             {
                 case 'c':
                     Console.WriteLine("Is your car an electric car? Press \"Y\" if it is. Press \"N\" if it is not.");
-                    char isElectricCar = Console.ReadKey().KeyChar;
+                    char isElectricCar = Console.ReadKey(true).KeyChar;
 
                     while (isElectricCar != 'y' && isElectricCar != 'n')//Kör while tills inmatningen blir Y eller N
                     { 
@@ -69,7 +69,9 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                     break;
             }
             vehicles.Add(vehicle);
-            parkingGarage.ParkVehicle(vehicles);//anropa via parkingGarage inte via klassnamnet ParkingGarage.
+
+            //parkingGarage.ParkVehicle(vehicles);//anropa via parkingGarage inte via klassnamnet ParkingGarage.
+            return vehicles;
         }
 
         public class Car : Vehicle //Är private så kan inte skapas utanför klassen
