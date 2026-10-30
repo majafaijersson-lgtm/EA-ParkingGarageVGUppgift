@@ -18,13 +18,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             ParkedInNr = new List<int>();
         }
 
-        public static List<Vehicle> ChooseVehicle(char chooseType, List<Vehicle> vehicles) //gör virtual?
+        public virtual Dictionary<string, Vehicle> ChooseVehicle(char input, Dictionary<string, Vehicle> vehicles) //gör virtual?
         {
             bool electricCar = false;
             //ParkingGarage parkingGarage = new ParkingGarage();//skapa instans för att kunna anropa senare i metoden
-            Vehicle vehicle = new Vehicle();
+            Vehicle vehicle; //Låter varje case tilldela rätt subclass - Vehicle vehicle kan inte användas.
 
-            switch (chooseType)
+            switch (input)
             {
                 case 'c':
                     Console.WriteLine("Is your car an electric car? Press \"Y\" if it is. Press \"N\" if it is not.");
@@ -66,10 +66,12 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                     break;
 
                 default:
-                    Console.WriteLine("Inmatningen blev fel. Försök igen.");
-                    break;
+                    return vehicles;
+                    
             }
-            vehicles.Add(vehicle);
+
+            
+            vehicles.Add(RegPlate, vehicle);
 
             return vehicles;
         }

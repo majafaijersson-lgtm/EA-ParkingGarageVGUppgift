@@ -16,13 +16,12 @@ namespace EA_ParkingGarageVGUppgift
 
         };
 
-        public void ParkVehicle(List<Vehicle> vehicles)
+        public Dictionary<string, Vehicle> ParkVehicle(Dictionary<string, Vehicle> vehicles)
         {
-            for (int i = 0; i < vehicles.Count; i++)
+            foreach(var item in vehicles)
             {
-                if (vehicles[i].ParkedInNr.Count > 0) continue;
-
-                double remaining = vehicles[i].ParkingSpotsUsed;
+                Vehicle vehicle = item.Value;
+                double remaining = vehicle.ParkingSpotsUsed;
                 double available = 0;
 
                 foreach (double parkingSpace in ParkingSpaces.Values)
@@ -36,7 +35,7 @@ namespace EA_ParkingGarageVGUppgift
                     continue;
                 }
 
-                if (vehicles[i] is Vehicle.Bus)
+                if (vehicle is Vehicle.Bus)
                 {
                     int fullSpaces = 0;
 
@@ -58,54 +57,76 @@ namespace EA_ParkingGarageVGUppgift
                     if (ParkingSpaces[j] == 0)
                         continue;
 
-                    if (vehicles[i] is Vehicle.Bus && ParkingSpaces[j] < 1)
+                    if (vehicle is Vehicle.Bus && ParkingSpaces[j] < 1)
                         continue;
 
                     if (ParkingSpaces[j] >= remaining)
                     {
                         ParkingSpaces[j] -= remaining;
-                        vehicles[i].ParkedInNr.Add(j);
+                        vehicle.ParkedInNr.Add(j);
                         remaining = 0;
                     }
                     else
                     {
                         remaining -= ParkingSpaces[j];
                         ParkingSpaces[j] = 0;
-                        vehicles[i].ParkedInNr.Add(j);
+                        vehicle.ParkedInNr.Add(j);
+
                     }
+
+                    vehicles.Add(item.Key, item.Value);
                 }
             }
+            return vehicles;
         }
 
-            
-        public static void PrintParkedInfo(List<Vehicle> vehicles)
-        {
-            for (int i = 0; i < vehicles.Count; i++)
-            {
-                if (vehicles[i].ParkedInNr.Count > 0) //Om fordonet inte är parkerat, men ej borttagen från List 
-                {
-                    Console.Write("Plats. ");
-                    foreach (int pNr in vehicles[i].ParkedInNr)
-                    {
-                        Console.Write($"{pNr}");
-                    }
-                    Console.Write($": {vehicles[i].GetType().Name} - {vehicles[i].RegPlate} - {vehicles[i].VehicleColor} - ");
 
-                    if (vehicles[i] is Vehicle.Car car)
+        public static void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)
+        {
+            foreach (var item in vehicles)
+            {
+
+                Vehicle vehicle = item.Value; //Ger tillgng till hela vehicle(list)
+                String regNr = item.Key;
+                List<int> parkingNumbers = vehicle.ParkedInNr;
+                String Color = vehicle.VehicleColor;
+                int count = vehicle.ParkedInNr.Count;
+
+                Console.Write("Plats. ");
+                foreach(int pNr in vehicle.ParkedInNr)
+                {
+                    if (count >= vehicle.ParkedInNr.Count)
                     {
-                        Console.Write(car.IsElectricCar ? "electric car." : "not an electric car.");
+                        Console.Write($"{vehicle.ParkedInNr}");
+                        if (count > 1)
+                        {
+                            Console.Write(", ");
+                        }
+                        else
+                        {
+                            Console.Write(": ");
+                        }
+                        count--;
                     }
-                    if (vehicles[i] is Vehicle.Bus bus)
-                    {
-                        Console.Write($"{bus.NumberOfPassengers}.");
-                    }
-                    if (vehicles[i] is Vehicle.Motorcycle motorcycle) 
-                    {
-                        Console.Write($"{motorcycle.MotorcycleBrand}.");
-                    }
-                    Console.WriteLine();
                 }
-            }
+   
+                Console.Write($"{vehicle.GetType().Name} - {vehicle.RegPlate} - {vehicle.VehicleColor} - ");
+
+                if (vehicle is Vehicle.Car car)
+                {
+                    Console.Write(car.IsElectricCar ? "electric car." : "not an electric vehicle.");
+                }
+                if (vehicle is Vehicle.Bus bus)
+                {
+                    Console.Write($"{bus.NumberOfPassengers}.");
+                }
+                if (vehicle is Vehicle.Motorcycle motorcycle)
+                {
+                    Console.Write($"{motorcycle.MotorcycleBrand}.");
+                }
+                Console.WriteLine();
+
+            }  
         }
     }
 }
