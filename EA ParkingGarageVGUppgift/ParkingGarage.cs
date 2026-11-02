@@ -104,8 +104,10 @@ namespace EA_ParkingGarageVGUppgift
             {
                 TimeSpan parkedTime = DateTime.Now - vehicle.StartParking; //Räknar ut TimeSpan 
                 double parkedSeconds = parkedTime.TotalSeconds;//.TS egenskap som räknar sek.
-
-                Console.WriteLine($"\nYour vehicle with the registration number {inputRegPlate} is being signed out of the garage. It has been parked since {vehicle.StartParking} and the price is {Math.Round(parkedSeconds * 1)}(for the {Math.Round(parkedSeconds)} seconds it was parked).");//Math.Round avrundar 2.5 blir 2, 2.51 blir 3(.Floor för att avrunda nedåt).
+                //if (vehicle is Vehicle.MC)
+                //{ 
+                //}
+                    Console.WriteLine($"\nYour vehicle with the registration number {inputRegPlate} is being signed out of the garage. It has been parked since {vehicle.StartParking} and the price is {Math.Round((parkedSeconds * 1)*(vehicle.ParkingSpotsUsed)) }(for the {Math.Round(parkedSeconds)} seconds it was parked).");//Math.Round avrundar 2.5 blir 2, 2.51 blir 3(.Floor för att avrunda nedåt).
             }
         }
         public void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)

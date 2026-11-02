@@ -5,14 +5,13 @@
         static void Main(string[] args)
         {
             //Grafisk representation hade varit kul?
-            //Pris: halvpris för MC? felhantering
-         
+
             ParkingGarage parkingGarage = new ParkingGarage();
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();//REGNR + Vehicle med resten av attributen
             Vehicle vehicle = new Vehicle();
 
             Console.WriteLine($"------------------------------------------------------------\nWelcome to the Parking Garage!\t" +
-                              $"Price: 1 SeK/parked second.\n------------------------------------------------------------");
+                              $"Price: 1 SeK/parking space/second.\n------------------------------------------------------------");
             while (true)
             {
                 Console.WriteLine("Please enter \"C\"(car), \"M\"(MC) or \"B\"(bus) for parking." +
