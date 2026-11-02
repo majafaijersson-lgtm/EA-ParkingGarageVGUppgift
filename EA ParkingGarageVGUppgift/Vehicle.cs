@@ -78,6 +78,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
 
         public virtual void PrintVehicleInfo()
         {
+            //Ska inte användas eftersom att vi aldrig skapar en Vehicle vehicle.
         }
 
         public class Car : Vehicle
@@ -93,7 +94,6 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
 
             public override void PrintVehicleInfo()
             {
-                Console.WriteLine("Utskrift i overridemetod");
                 Console.Write(IsElectricCar ? "electric car." : "not an electric vehicle.");
             }
         }    
@@ -110,7 +110,6 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
             public override void PrintVehicleInfo()
             {
-                Console.WriteLine("Utskrift i overridemetod");
                 Console.Write($"{MotorcycleBrand}.");
             }
         }
@@ -127,7 +126,6 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
             public override void PrintVehicleInfo()
             {
-                Console.WriteLine("Utskrift i overridemetod");
                 Console.Write($"{NumberOfPassengers}.");
             }
         }
