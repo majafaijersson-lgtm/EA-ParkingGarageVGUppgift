@@ -35,6 +35,5 @@ namespace EA_ParkingGarageVGUppgift
 
             return vehicleColor[Random.Shared.Next(0, vehicleColor.Count)];
         }
-
     }
 }

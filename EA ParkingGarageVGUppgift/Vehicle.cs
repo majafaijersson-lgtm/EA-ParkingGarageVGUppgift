@@ -20,12 +20,9 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             ParkedInNr = new List<int>();
         }
 
-
-
         public Vehicle ChooseVehicle(char input)
         {
             bool electricCar = false;
-
             Vehicle vehicle;
 
             switch (input)
@@ -79,14 +76,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             return vehicle;
         }
 
-        public virtual void PrintVehicleInfo() //gör virtual?
+        public virtual void PrintVehicleInfo()
         {
-            Console.WriteLine("Utskrift i virtualmetod");
         }
 
-        public class Car : Vehicle //Är private så kan inte skapas utanför klassen
+        public class Car : Vehicle
         {
-            public override double ParkingSpotsUsed { get; }    //Jag vill inte att antalet platser ska gå att ändra -> get;
+            public override double ParkingSpotsUsed { get; } //Jag vill inte att antalet platser ska gå att ändra -> get;
             public bool IsElectricCar { get; set; }
 
             internal Car(bool electricCar)
@@ -102,7 +98,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
         }    
 
-        public class MC : Vehicle //Är private så kan inte skapas utanför klassen
+        public class MC : Vehicle
         {
             public override double ParkingSpotsUsed { get; }
             public string MotorcycleBrand { get; set; }
@@ -119,7 +115,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             }
         }
 
-        public class Bus : Vehicle //Är private så kan inte skapas utanför klassen
+        public class Bus : Vehicle
         {
             public override double ParkingSpotsUsed { get; }
             public int NumberOfPassengers { get; set; }

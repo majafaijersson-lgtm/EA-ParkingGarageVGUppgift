@@ -4,8 +4,6 @@
     {
         static void Main(string[] args)
         {
-            //Grafisk representation hade varit kul?
-
             ParkingGarage parkingGarage = new ParkingGarage();
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();//REGNR + Vehicle med resten av attributen
             Vehicle vehicle = new Vehicle();
