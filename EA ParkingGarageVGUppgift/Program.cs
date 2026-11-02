@@ -6,8 +6,6 @@
         {
             //Grafisk representation hade varit kul?
             //Pris: halvpris för MC? felhantering
-            //Pris: felhantering
-
          
             ParkingGarage parkingGarage = new ParkingGarage();
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();//REGNR + Vehicle med resten av attributen
