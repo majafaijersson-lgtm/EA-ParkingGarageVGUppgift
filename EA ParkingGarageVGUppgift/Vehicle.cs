@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static EA_ParkingGarageVGUppgift.Vehicle;
 
 namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
 {
@@ -19,45 +20,51 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             ParkedInNr = new List<int>();
         }
 
-        public virtual Vehicle ChooseVehicle(char input) //gör virtual?
+
+
+        public Vehicle ChooseVehicle(char input)
         {
             bool electricCar = false;
-            //ParkingGarage parkingGarage = new ParkingGarage();//skapa instans för att kunna anropa senare i metoden
-            Vehicle vehicle; //Låter varje case tilldela rätt subclass - Vehicle vehicle kan inte användas.
+
+            Vehicle vehicle;
 
             switch (input)
             {
                 case 'c':
                     Console.Write("Is your car an electric car? Press \"Y\" if it is. Press \"N\" if it is not.");
-                    char isElectricCar = Console.ReadKey(true).KeyChar; //char.ToLower(Console.ReadKey(true).KeyCar); för minska risk för felinmatning
+                    char isElectricCar = Console.ReadKey(true).KeyChar;
 
-                    while (isElectricCar != 'y' && isElectricCar != 'n')//Kör while tills inmatningen blir Y eller N
-                    { 
-                            Console.Write("Please enter \"N\" for no, or \"Y\" yes.");
-                            isElectricCar = Console.ReadKey().KeyChar;
+                    while (isElectricCar != 'y' && isElectricCar != 'n')
+                    {
+                        Console.Write("Please enter \"N\" for no, or \"Y\" yes.");
+                        isElectricCar = Console.ReadKey().KeyChar;
                     }
 
                     if (isElectricCar == 'y')
                     {
                         electricCar = true;
                     }
+
                     if (isElectricCar == 'n')
                     {
                         electricCar = false;
                     }
+
                     vehicle = new Car(electricCar);
                     break;
 
                 case 'm':
-                    Console.Write("What kind of brand is your motorcycle?");
-                    string motorcycleBrand = Console.ReadLine(); //randomisera ett märke?
+                    Console.Write("What kind of brand is your motorcycle? ");
+                    string motorcycleBrand = Console.ReadLine();
+
                     vehicle = new MC(motorcycleBrand);
                     break;
 
                 case 'b':
-                    Console.Write("How many seats for passengers does the bus have?");
+                    Console.Write("How many seats for passengers does the bus have? ");
                     int numberOfPassengers;
-                    while(!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1) //Körs så länge inmatningen inte är godkänt positivt tal.
+
+                    while (!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1)
                     {
                         Console.Write("Please enter av valid number for the amount of passenger seats in the bus.");
                     }
@@ -67,10 +74,14 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
 
                 default:
                     return null;
-                    
             }
 
             return vehicle;
+        }
+
+        public virtual void PrintVehicleInfo() //gör virtual?
+        {
+            Console.WriteLine("Utskrift i virtualmetod");
         }
 
         public class Car : Vehicle //Är private så kan inte skapas utanför klassen
@@ -83,8 +94,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                 ParkingSpotsUsed = 1;
                 IsElectricCar = electricCar;
             }
-            //metod parkvehicle med tillhörande specialattribut
-        }
+
+            public override void PrintVehicleInfo()
+            {
+                Console.WriteLine("Utskrift i overridemetod");
+                Console.Write(IsElectricCar ? "electric car." : "not an electric vehicle.");
+            }
+        }    
 
         public class MC : Vehicle //Är private så kan inte skapas utanför klassen
         {
@@ -96,7 +112,11 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                 ParkingSpotsUsed = 0.5;
                 MotorcycleBrand = motorcycleBrand;
             }
-            //metod parkvehicle
+            public override void PrintVehicleInfo()
+            {
+                Console.WriteLine("Utskrift i overridemetod");
+                Console.Write($"{MotorcycleBrand}.");
+            }
         }
 
         public class Bus : Vehicle //Är private så kan inte skapas utanför klassen
@@ -109,7 +129,11 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                 ParkingSpotsUsed = 2;
                 NumberOfPassengers = numberOfPassengers;
             }
-            //metod parkvehicle
+            public override void PrintVehicleInfo()
+            {
+                Console.WriteLine("Utskrift i overridemetod");
+                Console.Write($"{NumberOfPassengers}.");
+            }
         }
     }
 }

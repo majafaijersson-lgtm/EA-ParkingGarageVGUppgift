@@ -5,7 +5,9 @@
         static void Main(string[] args)
         {
             //Grafisk representation hade varit kul?
-            //Pris: kolla utskrift, avrundning och felhantering
+            //Pris: halvpris för MC? felhantering
+            //Pris: felhantering
+
          
             ParkingGarage parkingGarage = new ParkingGarage();
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();//REGNR + Vehicle med resten av attributen
@@ -37,7 +39,7 @@
                         break;
 
                     case 's':
-                        ParkingGarage.PrintParkedInfo(vehicles);
+                        parkingGarage.PrintParkedInfo(vehicles);//tídigare ParkingGarage.PrintParkedInfo -> gjorde till virtual/override i vehicle istl
                         break; //metod för att visa parkerade bilar.
 
                     default:
