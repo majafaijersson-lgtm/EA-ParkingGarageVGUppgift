@@ -97,7 +97,7 @@ namespace EA_ParkingGarageVGUppgift
         public void LeaveGarage(Dictionary<string, Vehicle> vehicles)
         {
             
-            Console.WriteLine("Enter the registration number for the vehicle you wish to sign out from the Parking garage(ex. GWH 959): ");//risk för felinamtning
+            Console.Write("Enter the registration number for the vehicle you wish to sign out from the Parking garage(ex. GWH 959): ");//risk för felinamtning
             string inputRegPlate = Console.ReadLine();
 
             if(vehicles.TryGetValue(inputRegPlate, out Vehicle vehicle))//Om inmatningen matchar en nyckeln
@@ -105,7 +105,7 @@ namespace EA_ParkingGarageVGUppgift
                 TimeSpan parkedTime = DateTime.Now - vehicle.StartParking; //Räknar ut TimeSpan 
                 double parkedSeconds = parkedTime.TotalSeconds;//.TS egenskap som räknar sek.
 
-                Console.WriteLine($"Your vehicle with the reg number {inputRegPlate} is being signed out of the ggarage. It has been parked since {vehicle.StartParking} and the price is {parkedSeconds * 1} for the {parkedSeconds} seconds it was parked.");
+                Console.WriteLine($"\nYour vehicle with the registration number {inputRegPlate} is being signed out of the garage. It has been parked since {vehicle.StartParking} and the price is {Math.Round(parkedSeconds * 1)}(for the {Math.Round(parkedSeconds)} seconds it was parked).");//Math.Round avrundar 2.5 blir 2, 2.51 blir 3(.Floor för att avrunda nedåt).
             }
         }
         public static void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)

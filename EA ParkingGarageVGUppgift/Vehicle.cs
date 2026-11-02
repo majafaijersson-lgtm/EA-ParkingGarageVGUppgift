@@ -19,7 +19,7 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             ParkedInNr = new List<int>();
         }
 
-        public virtual Vehicle ChooseVehicle(char input) //gör virtual?
+        public /*virtual*/ Vehicle ChooseVehicle(char input) //gör virtual?
         {
             bool electricCar = false;
             //ParkingGarage parkingGarage = new ParkingGarage();//skapa instans för att kunna anropa senare i metoden
@@ -49,13 +49,13 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                     break;
 
                 case 'm':
-                    Console.Write("What kind of brand is your motorcycle?");
+                    Console.Write("What kind of brand is your motorcycle? ");
                     string motorcycleBrand = Console.ReadLine(); //randomisera ett märke?
                     vehicle = new MC(motorcycleBrand);
                     break;
 
                 case 'b':
-                    Console.Write("How many seats for passengers does the bus have?");
+                    Console.Write("How many seats for passengers does the bus have? ");
                     int numberOfPassengers;
                     while(!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1) //Körs så länge inmatningen inte är godkänt positivt tal.
                     {
@@ -83,7 +83,11 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                 ParkingSpotsUsed = 1;
                 IsElectricCar = electricCar;
             }
-            //metod parkvehicle med tillhörande specialattribut
+            //public override Vehicle ChooseVehicle(/*char input*/)
+            //{
+            
+             
+            //}
         }
 
         public class MC : Vehicle //Är private så kan inte skapas utanför klassen

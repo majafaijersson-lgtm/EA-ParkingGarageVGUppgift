@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             //Grafisk representation hade varit kul?
-            //Pris: kolla utskrift, avrundning och felhantering
+            //Pris: halvpris för MC? felhantering
          
             ParkingGarage parkingGarage = new ParkingGarage();
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();//REGNR + Vehicle med resten av attributen
