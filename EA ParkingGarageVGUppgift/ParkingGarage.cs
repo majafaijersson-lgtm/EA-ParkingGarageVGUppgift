@@ -16,101 +16,119 @@ namespace EA_ParkingGarageVGUppgift
 
         };
 
-        public Dictionary<string, Vehicle> ParkVehicle(Dictionary<string, Vehicle> vehicles)
+        public bool ParkVehicle(Vehicle vehicle)
         {
-            foreach(var item in vehicles)
+            DateTime startParking = DateTime.Now;
+            double parkingSpotsNeededForVehicle = vehicle.ParkingSpotsUsed;//Ändra namn på dessa variabler sedan
+            double available = 0;
+
+            foreach (double parkingSpace in ParkingSpaces.Values)
             {
-                Vehicle vehicle = item.Value;
-                double remaining = vehicle.ParkingSpotsUsed;
-                double available = 0;
+                if (vehicle is Vehicle.MC)
+                {
+                    available += parkingSpace;      // MC kan använda halva rutor
+                }
+                else if (parkingSpace == 1)
+                {
+                    available += parkingSpace;      // övriga får bara använda hela rutor
+                }
+            }
+
+            if (available < parkingSpotsNeededForVehicle)
+            {
+                Console.WriteLine("Det fanns tyvärr inte tillräckligt med plats i p-huset. Välkommen åter!");
+                return false;
+            }
+
+            if (vehicle is Vehicle.Bus)
+            {
+                int fullSpaces = 0;
 
                 foreach (double parkingSpace in ParkingSpaces.Values)
                 {
-                    available += parkingSpace;
+                    if (parkingSpace == 1)
+                        fullSpaces++;
                 }
 
-                if (available < remaining)
+                if (fullSpaces < 2)
                 {
-                    Console.WriteLine("Det fanns tyvärr inte tillräckligt med plats i p-huset. Välkommen åter!");
-                    continue;
-                }
-
-                if (vehicle is Vehicle.Bus)
-                {
-                    int fullSpaces = 0;
-
-                    foreach (double parkingSpace in ParkingSpaces.Values)
-                    {
-                        if (parkingSpace == 1)
-                            fullSpaces++;
-                    }
-
-                    if (fullSpaces < 2)
-                    {
-                        Console.WriteLine("Det fanns inte två hela parkeringsrutor för bussen.");
-                        continue;
-                    }
-                }
-
-                for (int j = 1; j <= ParkingSpaces.Count && remaining > 0; j++)
-                {
-                    if (ParkingSpaces[j] == 0)
-                        continue;
-
-                    if (vehicle is Vehicle.Bus && ParkingSpaces[j] < 1)
-                        continue;
-
-                    if (ParkingSpaces[j] >= remaining)
-                    {
-                        ParkingSpaces[j] -= remaining;
-                        vehicle.ParkedInNr.Add(j);
-                        remaining = 0;
-                    }
-                    else
-                    {
-                        remaining -= ParkingSpaces[j];
-                        ParkingSpaces[j] = 0;
-                        vehicle.ParkedInNr.Add(j);
-
-                    }
-
-                    vehicles.Add(item.Key, item.Value);
+                    Console.WriteLine("Det fanns inte två hela parkeringsrutor för bussen.");
+                    return false;
                 }
             }
-            return vehicles;
+
+            for (int j = 1; j <= ParkingSpaces.Count && parkingSpotsNeededForVehicle > 0; j++)
+            {
+                if (ParkingSpaces[j] == 0)
+                    continue;
+
+                if (!(vehicle is Vehicle.MC) && ParkingSpaces[j] < 1)   // bara MC får dela ruta
+                    continue;
+
+                if (ParkingSpaces[j] >= parkingSpotsNeededForVehicle)
+                {
+                    ParkingSpaces[j] -= parkingSpotsNeededForVehicle;
+                    parkingSpotsNeededForVehicle = 0;
+                }
+                else
+                {
+                    parkingSpotsNeededForVehicle -= ParkingSpaces[j];
+                    ParkingSpaces[j] = 0;
+                }
+
+                vehicle.ParkedInNr.Add(j);
+            }
+
+            vehicle.StartParking = startParking;
+            Console.Write($"\nYour {vehicle.GetType().Name} {vehicle.RegPlate} was parked in parking spot number ");
+            for (int i = 0; i < vehicle.ParkedInNr.Count; i++)
+            {
+                Console.Write($"{vehicle.ParkedInNr[i]}");
+
+                if (i < vehicle.ParkedInNr.Count - 1)
+                {
+                    Console.Write(" and ");   // komma mellan numren, men inte efter det sista
+                }
+            }
+            Console.WriteLine(".");
+            return true;
         }
 
+        public void LeaveGarage(Dictionary<string, Vehicle> vehicles)
+        {
+            
+            Console.WriteLine("Enter the registration number for the vehicle you wish to sign out from the Parking garage(ex. GWH 959): ");//risk för felinamtning
+            string inputRegPlate = Console.ReadLine();
 
+            if(vehicles.TryGetValue(inputRegPlate, out Vehicle vehicle))//Om inmatningen matchar en nyckeln
+            {
+                TimeSpan parkedTime = DateTime.Now - vehicle.StartParking; //Räknar ut TimeSpan 
+                double parkedSeconds = parkedTime.TotalSeconds;//.TS egenskap som räknar sek.
+
+                Console.WriteLine($"Your vehicle with the reg number {inputRegPlate} is being signed out of the ggarage. It has been parked since {vehicle.StartParking} and the price is {parkedSeconds * 1} for the {parkedSeconds} seconds it was parked.");
+            }
+        }
         public static void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)
         {
             foreach (var item in vehicles)
             {
+                Vehicle vehicle = item.Value;
 
-                Vehicle vehicle = item.Value; //Ger tillgng till hela vehicle(list)
-                String regNr = item.Key;
-                List<int> parkingNumbers = vehicle.ParkedInNr;
-                String Color = vehicle.VehicleColor;
-                int count = vehicle.ParkedInNr.Count;
+                Console.Write($"Currently parked vehicles:\nPlats ");
 
-                Console.Write("Plats. ");
-                foreach(int pNr in vehicle.ParkedInNr)
+                for (int i = 0; i < vehicle.ParkedInNr.Count; i++)
                 {
-                    if (count >= vehicle.ParkedInNr.Count)
+                    Console.Write(vehicle.ParkedInNr[i]);
+
+                    if (i < vehicle.ParkedInNr.Count - 1)
                     {
-                        Console.Write($"{vehicle.ParkedInNr}");
-                        if (count > 1)
-                        {
-                            Console.Write(", ");
-                        }
-                        else
-                        {
-                            Console.Write(": ");
-                        }
-                        count--;
+                        Console.Write(", ");   // komma mellan numren, men inte efter det sista
                     }
                 }
-   
-                Console.Write($"{vehicle.GetType().Name} - {vehicle.RegPlate} - {vehicle.VehicleColor} - ");
+
+                Console.Write(": ");
+
+                Console.Write($"{vehicle.GetType().Name} - {vehicle.RegPlate} - parking started: {vehicle.StartParking} - {vehicle.VehicleColor} - ");
 
                 if (vehicle is Vehicle.Car car)
                 {
@@ -120,13 +138,16 @@ namespace EA_ParkingGarageVGUppgift
                 {
                     Console.Write($"{bus.NumberOfPassengers}.");
                 }
-                if (vehicle is Vehicle.Motorcycle motorcycle)
+                if (vehicle is Vehicle.MC motorcycle)
                 {
                     Console.Write($"{motorcycle.MotorcycleBrand}.");
                 }
-                Console.WriteLine();
 
-            }  
+                Console.WriteLine();
+            }
         }
     }
 }
+
+
+       
