@@ -1,6 +1,8 @@
 ﻿namespace EA_ParkingGarageVGUppgift
 {
     internal class Program
+
+        //Att göra: kolla igenom kommentarer PG. Fixa Clear inför redovinsing. Testa en gång
     {
        internal static void Main(string[] args)
        {

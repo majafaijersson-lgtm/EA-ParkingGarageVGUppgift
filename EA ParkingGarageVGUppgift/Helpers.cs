@@ -13,7 +13,6 @@ namespace EA_ParkingGarageVGUppgift
             "BSX 939", "GWH 969", "KLT 331", "PEF 031", "HAL 010", "GOD 666", "FCW 112", "BOB 990",
             "SOP 446", "RAL 764", "BEB 990", "HAJ 123", "PAL 558", "GIT 003", "JBL 007", "BRA 559"
         };
-
         internal static string GetRegPlate()                                                            //static = metoden tillhör klassen(Heleprs) inte ett objekt. Anrop jobbar med samma lista.
         {
             if (regPlates.Count == 0)
