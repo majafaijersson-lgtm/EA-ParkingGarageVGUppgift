@@ -23,7 +23,7 @@ namespace EA_ParkingGarageVGUppgift
 
             int rnd = Random.Shared.Next(regPlates.Count); //Annars ta ett random regnr -> regPlateTxt och ta sedan bort det från Listan regPlate.
             string regPlate = regPlates[rnd];
-            regPlates.RemoveAt(rnd);
+            regPlates.RemoveAt(rnd);                        //Dict PG kan inte ha samma nyckel.
             return regPlate;
         }
 
