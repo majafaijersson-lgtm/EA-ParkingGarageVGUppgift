@@ -2,8 +2,8 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
-        {
+       internal static void Main(string[] args)
+       {
             ParkingGarage parkingGarage = new ParkingGarage();
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();//REGNR + Vehicle med resten av attributen
             Vehicle vehicle = new Vehicle();

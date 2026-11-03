@@ -7,16 +7,16 @@ namespace EA_ParkingGarageVGUppgift
 {
     internal class ParkingGarage
     {
-        public double AmountParkingSpaces { get; } = 15; //Endast get;
-        public double TotalParkingSpaces { get; set; } = 15;
-        public Dictionary<double, double> ParkingSpaces { get; set; } = //hör endast ihop med ParkVehicle för att hålla koll på räkning?
+        //public double AmountParkingSpaces { get; } = 15; //Endast get;
+        //public double TotalParkingSpaces { get; set; } = 15;
+        private Dictionary<double, double> ParkingSpaces { get; set; } = //hör endast ihop med ParkVehicle för att hålla koll på räkning?
         new Dictionary<double, double>
         {
             { 1, 1 }, { 2, 1 }, { 3, 1 }, { 4, 1 }, { 5, 1 }, { 6, 1 }, { 7, 1 }, { 8, 1 }, { 9, 1 }, { 10, 1 }, { 11, 1 }, { 12, 1 }, { 13, 1 }, { 14, 1 }, { 15, 1 }
 
         };
 
-        public bool ParkVehicle(Vehicle vehicle)
+        internal bool ParkVehicle(Vehicle vehicle)
         {
             DateTime startParking = DateTime.Now;
             double parkingSpotsNeededForVehicle = vehicle.ParkingSpotsUsed;//Ändra namn på dessa variabler sedan
@@ -94,7 +94,7 @@ namespace EA_ParkingGarageVGUppgift
             return true;
         }
 
-        public void LeaveGarage(Dictionary<string, Vehicle> vehicles)
+        internal void LeaveGarage(Dictionary<string, Vehicle> vehicles)
         {
             Console.Write("Enter the registration number for the vehicle you wish to sign out from the Parking garage(ex. GWH 959): ");//risk för felinamtning
 
@@ -111,7 +111,7 @@ namespace EA_ParkingGarageVGUppgift
                     double parkedSeconds = parkedTime.TotalSeconds;//.TS egenskap som räknar sek.
 
                     Console.WriteLine($"\nYour vehicle with the registration number {inputRegPlate} is being signed out of the garage. It has been parked since {vehicle.StartParking} " +
-                                      $"and the price is {Math.Round((parkedSeconds * 1) * (vehicle.ParkingSpotsUsed))}(for the {Math.Round(parkedSeconds)} seconds it was parked).");//Math.Round avrundar 2.5 blir 2, 2.51 blir 3(.Floor för att avrunda nedåt).
+                                      $"and the price is {Math.Round((parkedSeconds * 1) * (vehicle.ParkingSpotsUsed))}(for the {Math.Round(parkedSeconds)} seconds it was parked).\n");//Math.Round avrundar 2.5 blir 2, 2.51 blir 3(.Floor för att avrunda nedåt).
 
                     vehicles.Remove(inputRegPlate);
 
@@ -124,7 +124,7 @@ namespace EA_ParkingGarageVGUppgift
             }
         }
 
-        public void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)
+        internal void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)
         {
             Console.WriteLine($"Currently parked vehicles: ");
             foreach (var item in vehicles)

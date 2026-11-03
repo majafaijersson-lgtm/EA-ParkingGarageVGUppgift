@@ -14,7 +14,7 @@ namespace EA_ParkingGarageVGUppgift
             "SOP 446", "RAL 764", "BEB 990", "HAJ 123", "PAL 558", "GIT 003", "JBL 007", "BRA 559"
         };
 
-        public static string GetRegPlate()
+        internal static string GetRegPlate()
         {
             if (regPlates.Count == 0)
             {
@@ -27,7 +27,7 @@ namespace EA_ParkingGarageVGUppgift
             return regPlate;
         }
 
-        public static string GetVehicleColor()
+        internal static string GetVehicleColor()
         {
             List<string> vehicleColor = new List<string>
             {   "red", "blue", "black", "magenta", "purple", "gold with unicorns", "white", "pink", "silver",

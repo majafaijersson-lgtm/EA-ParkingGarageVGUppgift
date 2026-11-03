@@ -5,22 +5,22 @@ using static EA_ParkingGarageVGUppgift.Vehicle;
 
 namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
 {
-    public class Vehicle
+    internal class Vehicle
     {
-        public string RegPlate { get; }                     //Endast get;
-        public string VehicleColor { get; }
-        public virtual double ParkingSpotsUsed { get; }     //Override i subclasser. För att inte behöva kontrollera vilken typ subclassen är innan man komma åt pSpots
-        public List<int> ParkedInNr { get; set; }   //List pga buss
-        public DateTime StartParking { get; set; }
+        internal string RegPlate { get; }                     //Endast get;
+        internal string VehicleColor { get; }
+        internal virtual double ParkingSpotsUsed { get; }     //Override i subclasser. För att inte behöva kontrollera vilken typ subclassen är innan man komma åt pSpots
+        internal List<int> ParkedInNr { get; set; }   //List pga buss
+        internal DateTime StartParking { get; set; }
 
-        public Vehicle()
+        internal Vehicle()
         {
             RegPlate = Helpers.GetRegPlate();
             VehicleColor = Helpers.GetVehicleColor();
             ParkedInNr = new List<int>();
         }
 
-        public Vehicle ChooseVehicle(char input)
+        internal Vehicle ChooseVehicle(char input)
         {
             bool electricCar = false;
             Vehicle vehicle;
@@ -76,15 +76,15 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
             return vehicle;
         }
 
-        public virtual void PrintVehicleInfo()
+        internal virtual void PrintVehicleInfo()//Poly
         {
-            //Ska inte användas eftersom att vi aldrig skapar en Vehicle vehicle.
+
         }
 
-        public class Car : Vehicle
+        private class Car : Vehicle
         {
-            public override double ParkingSpotsUsed { get; } //Jag vill inte att antalet platser ska gå att ändra -> get;
-            public bool IsElectricCar { get; set; }
+            internal override double ParkingSpotsUsed { get; } //Jag vill inte att antalet platser ska gå att ändra -> get;
+            internal bool IsElectricCar { get; set; }
 
             internal Car(bool electricCar)
             {
@@ -92,39 +92,39 @@ namespace EA_ParkingGarageVGUppgift //KOLLA ÅTKOMSTMODIFIERARE
                 IsElectricCar = electricCar;
             }
 
-            public override void PrintVehicleInfo()
+            internal override void PrintVehicleInfo()
             {
                 Console.Write(IsElectricCar ? "electric car." : "not an electric vehicle.");
             }
         }    
 
-        public class MC : Vehicle
+        internal class MC : Vehicle
         {
-            public override double ParkingSpotsUsed { get; }
-            public string MotorcycleBrand { get; set; }
+            internal override double ParkingSpotsUsed { get; }
+            internal string MotorcycleBrand { get; set; }
 
-            public MC(string motorcycleBrand)
+            internal MC(string motorcycleBrand)
             {
                 ParkingSpotsUsed = 0.5;
                 MotorcycleBrand = motorcycleBrand;
             }
-            public override void PrintVehicleInfo()
+            internal override void PrintVehicleInfo()
             {
                 Console.Write($"{MotorcycleBrand}.");
             }
         }
 
-        public class Bus : Vehicle
+        internal class Bus : Vehicle
         {
-            public override double ParkingSpotsUsed { get; }
-            public int NumberOfPassengers { get; set; }
+            internal override double ParkingSpotsUsed { get; }
+            internal int NumberOfPassengers { get; set; }
 
-            public Bus(int numberOfPassengers)
+            internal Bus(int numberOfPassengers)
             {
                 ParkingSpotsUsed = 2;
                 NumberOfPassengers = numberOfPassengers;
             }
-            public override void PrintVehicleInfo()
+            internal override void PrintVehicleInfo()
             {
                 Console.Write($"{NumberOfPassengers}.");
             }
