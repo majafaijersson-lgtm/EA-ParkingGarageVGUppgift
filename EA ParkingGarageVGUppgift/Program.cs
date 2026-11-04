@@ -1,21 +1,16 @@
 ﻿namespace EA_ParkingGarageVGUppgift
 {
     internal class Program
-
-        //Att göra: kolla igenom kommentarer PG. Fixa Clear inför redovinsing. Testa en gång
     {
-       internal static void Main(string[] args)
-       {
-            ParkingGarage parkingGarage = new ParkingGarage();                                                                          //Platser. In- & utcheckn.
+        internal static void Main(string[] args)
+        {
+            ParkingGarage parkingGarage = new ParkingGarage();                                                                          //Platser
             Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();                                                   //REGNR + Vehicle m. attr.
-            Vehicle vehicle = new Vehicle();                                                                                            //Skapar en ny instans av klassen till chooseVehicle
+            Vehicle vehicle = new Vehicle();                                                                                            //Skapar en ny instans av klassen används i chooseVehicle
 
-            Console.WriteLine($"------------------------------------------------------------\nWelcome to the Parking Garage!\t" +
-                              $"Price: 1 SeK/parking space/second.\n------------------------------------------------------------");
             while (true)
             {
-                Console.WriteLine("Please enter \"C\"(car), \"M\"(MC) or \"B\"(bus) for parking." +
-                                  "\nEnter \"E\" to exit or \"S\" to show all of the parking spaces\n");
+                Helpers.DrawScreen();                                                                                                           //Rensar och ritar
 
                 char input = char.ToLower(Console.ReadKey(true).KeyChar);                                                               //tecken-input som sparas i variabel.
 
@@ -29,19 +24,24 @@
                         {
                             vehicles.Add(newVehicle.RegPlate, newVehicle);                                                              //add vehicles med nyckel och vehiclevärde. 
                             Console.WriteLine();
+                            Helpers.Pause();                                                                                          
                         }
                         break;
                     case 'e':
+                        parkingGarage.PrintParkedInfo(vehicles);
                         parkingGarage.LeaveGarage(vehicles);
+                        Helpers.Pause();
                         break;
 
                     case 's':
-                        parkingGarage.PrintParkedInfo(vehicles);                                                                        //Polymorfism med anrop i PPI
+                        Console.Clear();                                                                  
+                        parkingGarage.PrintParkedInfo(vehicles);                                                                       
+                        Helpers.Pause();                                                                                                      
                         break;
 
                     default:
-                        Console.WriteLine($"Please try again(invalid input)"); 
-                        Console.ReadKey(true);
+                        Console.WriteLine($"Please try again(invalid input)");
+                        Helpers.Pause();      
                         break;
                 }
             }

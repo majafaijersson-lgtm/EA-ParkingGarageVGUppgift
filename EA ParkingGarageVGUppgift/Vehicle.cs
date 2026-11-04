@@ -101,7 +101,7 @@ namespace EA_ParkingGarageVGUppgift
 
             internal override void PrintVehicleInfo()
             {
-                Console.Write(IsElectricCar ? "electric car." : "not an electric vehicle.");
+                Console.WriteLine(IsElectricCar ? "electric car." : "not an electric vehicle.");
             }
         }    
 
@@ -117,7 +117,7 @@ namespace EA_ParkingGarageVGUppgift
             }
             internal override void PrintVehicleInfo()
             {
-                Console.Write($"{MotorcycleBrand}.");
+                Console.Write($"{MotorcycleBrand}.\n");
             }
         }
 
@@ -133,7 +133,7 @@ namespace EA_ParkingGarageVGUppgift
             }
             internal override void PrintVehicleInfo()
             {
-                Console.Write($"{NumberOfPassengers}.");
+                Console.Write($"{NumberOfPassengers}.\n");
             }
         }
     }

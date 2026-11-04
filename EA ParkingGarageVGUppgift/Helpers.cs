@@ -34,5 +34,24 @@ namespace EA_ParkingGarageVGUppgift
 
             return vehicleColor[Random.Shared.Next(0, vehicleColor.Count)];
         }
+
+        internal static void DrawScreen()
+        {
+
+            Console.Clear();
+            Console.WriteLine($"------------------------------------------------------------\nWelcome to the Parking Garage!\t" +
+                                $"Price: 1 SeK/parking space/second.\n------------------------------------------------------------");
+            Console.WriteLine("Please enter \"C\"(car), \"M\"(MC) or \"B\"(bus) for parking." +
+                                "\nEnter \"E\" to exit or \"S\" to show all of the parking spaces\n");
+          
+        }
+
+        internal static void Pause()
+        {
+
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey(true);
+            
+        }
     }
 }

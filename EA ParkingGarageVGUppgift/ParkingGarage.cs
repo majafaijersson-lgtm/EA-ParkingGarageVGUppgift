@@ -91,14 +91,14 @@ namespace EA_ParkingGarageVGUppgift
                     Console.Write(" and ");                                                                 //, mellan numren, men inte efter det sista. Hur kan man göra kode mer DRY(string.Join)?
                 }
             }
-            Console.WriteLine(".");
+            Console.WriteLine(".\n");
 
             return true;                                                                                    // = parkerad
         }
 
         internal void LeaveGarage(Dictionary<string, Vehicle> vehicles)
         {
-            Console.Write("Enter the registration number for the vehicle you wish to sign out from the Parking garage(ex. GWH 959): ");
+            Console.Write("\n\nEnter the registration number for the vehicle you wish to sign out from the Parking garage(ex. GWH 959): ");
 
             bool correctInput = false;                                                                      //variabel för om rätt inmatning har skett.
 
