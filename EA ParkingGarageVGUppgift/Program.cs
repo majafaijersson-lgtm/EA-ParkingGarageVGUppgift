@@ -10,7 +10,7 @@
 
             while (true)
             {
-                Helpers.DrawScreen();                                                                                                           //Rensar och ritar
+                Helpers.DrawScreen();                                                                                                   //Rensar och ritar
 
                 char input = char.ToLower(Console.ReadKey(true).KeyChar);                                                               //tecken-input som sparas i variabel.
 

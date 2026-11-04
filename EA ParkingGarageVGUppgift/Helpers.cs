@@ -8,7 +8,7 @@ namespace EA_ParkingGarageVGUppgift
     {
         private static List<string> regPlates = new List<string>                                        //Begränsa åtkomst så att andra klasser inte kan ändra listan. 
         {
-            "BMX 939", "GWH 959", "KLS 331", "MEF 031", "HAM 010", "KOD 666", "FBW 112", "BOB 910",
+            "BMX 939", "GWH 959", "KLS 331", "MEF 031", "HAM 010", "KOD 666", "FBW 112", "BOB 910",     //Skulle kunna ha randomiserat.
             "KOP 446", "TAL 764", "BUB 990", "HEJ 123", "PAL 458", "GIF 003", "JJB 007", "BAP 559",
             "BSX 939", "GWH 969", "KLT 331", "PEF 031", "HAL 010", "GOD 666", "FCW 112", "BOB 990",
             "SOP 446", "RAL 764", "BEB 990", "HAJ 123", "PAL 558", "GIT 003", "JBL 007", "BRA 559"
