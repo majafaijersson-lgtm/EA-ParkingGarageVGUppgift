@@ -7,7 +7,7 @@ namespace EA_ParkingGarageVGUppgift
 {
     internal class ParkingGarage
     {
-        private Dictionary<double, double> ParkingSpaces { get; set; } =                                    //Används i ParkVehicle. Håller koll på parkeringsplatsem(key) och om den är upptagen(0) eller inte.
+        private Dictionary<double, double> ParkingSpaces { get; set; } =                                    //Används i ParkVehicle. Håller koll på parkeringsplatsen(key) och om den är upptagen(0) eller inte.
         new Dictionary<double, double>
         {
             { 1, 1 }, { 2, 1 }, { 3, 1 }, { 4, 1 }, { 5, 1 }, { 6, 1 }, { 7, 1 }, 
@@ -15,7 +15,7 @@ namespace EA_ParkingGarageVGUppgift
 
         };
 
-        internal bool ParkVehicle(Vehicle vehicle)                                                          //Return om park kunde ske
+        internal bool ParkVehicle(Vehicle vehicle)                                                          //Return bool om park kunde ske
         {
             DateTime startParking = DateTime.Now;                                                           //Sparar tiden
             double spacesNeededForVehicle = vehicle.ParkingSpotsUsed;                                       //Hämtar och ger variabeln värdet för hur många pplatser fordonet behöver.
@@ -41,37 +41,37 @@ namespace EA_ParkingGarageVGUppgift
 
             if (vehicle is Vehicle.Bus)
             {
-                int spacesNeededBus = 0;                                                                    //Variabel som håller koll på om buss är fullständigt parkerad(2) eller delvis parkerad(1)                                                                
+                int availableSpaces = 0;                                                                    //Variabel för antalet lediga parkeringsplatser                                                           
 
-                foreach (double parkingSpace in ParkingSpaces.Values)                                       //Går igenom alla värden.
+                foreach (double parkingSpace in ParkingSpaces.Values)                                       //Går igenom alla värden i dict.
                 {
-                    if (parkingSpace == 1)                                                                  //Om en ledig plats finns så läggs +1 till i spacesNeededBus
-                        spacesNeededBus++;
+                    if (parkingSpace == 1)                                                                  //Om en ledig plats finns så läggs +1 till i availableSpaces
+                        availableSpaces++;                                                                 
                 }
 
-                if (spacesNeededBus < 2)                                                                    //Om det inte går att hitta två platser i tidigare foreach
+                if (availableSpaces < 2)                                                                    
                 {
                     Console.WriteLine("Det fanns inte två hela parkeringsrutor för bussen.");
                     return false;
                 }
             }
 
-            for (int j = 1; j <= ParkingSpaces.Count && spacesNeededForVehicle > 0; j++)                    //Kör loop som är lika lång som pplatser(15), så länge spacesNeededForVehicle > 0 (dvs att den ej är parkerad)
+            for (int j = 1; j <= ParkingSpaces.Count && spacesNeededForVehicle > 0; j++)                    //Kör igenom alla platser, så länge spacesNeededForVehicle > 0 
             {
-                if (ParkingSpaces[j] == 0)                                                                  //Om plats == 0
+                if (ParkingSpaces[j] == 0)                                                                  //stoppar iteration(går vidare till nästa plats).
                     continue;
 
-                if (!(vehicle is Vehicle.MC) && ParkingSpaces[j] < 1)                                       //Om fordonet int är MC och pplatsen är tom(0) eller innehåller en MC(0.5).
+                if (!(vehicle is Vehicle.MC) && ParkingSpaces[j] < 1)                                       //Om int är MC och pplatsen(0.5). Gå vidare till nästa plats.
                     continue;
 
-                if (ParkingSpaces[j] >= spacesNeededForVehicle)                                             //Om pplatsen har ett större värde än behover av pplats
+                if (ParkingSpaces[j] >= spacesNeededForVehicle)                                             //Om platsen har ett större värde än behovet av plats
                 {
-                    ParkingSpaces[j] -= spacesNeededForVehicle;                                             //Ändra värde pplats och nolla spacesNeededFV(parkerad)
+                    ParkingSpaces[j] -= spacesNeededForVehicle;                                             //parkeringens värde - spacesNeededFV(0 = parkerad)
                     spacesNeededForVehicle = 0;
                 }
                 else
                 {
-                    spacesNeededForVehicle -= ParkingSpaces[j];                                             //Ändra värdet på spacesNFV med värdet på pplatsen. Få fram hur mycket mer plats fordonet behöver -> vidare till nästa varv i for-loopen.
+                    spacesNeededForVehicle -= ParkingSpaces[j];                                             //Värdet spacesNFV - platsen. Få fram hur mycket mer plats fordonet behöver -> vidare till nästa varv i for-loopen.
                     ParkingSpaces[j] = 0;
                 }
 
@@ -88,7 +88,7 @@ namespace EA_ParkingGarageVGUppgift
 
                 if (i < vehicle.ParkedInNr.Count - 1)
                 {
-                    Console.Write(" and ");                                                                 //, mellan numren, men inte efter det sista. Hur kan man göra utskriften med DRY?
+                    Console.Write(" and ");                                                                 //, mellan numren, men inte efter det sista. Hur kan man göra kode mer DRY(string.Join)?
                 }
             }
             Console.WriteLine(".");
@@ -106,10 +106,10 @@ namespace EA_ParkingGarageVGUppgift
             {
                 string inputRegPlate = Console.ReadLine();
 
-                if (vehicles.TryGetValue(inputRegPlate, out Vehicle vehicle))                               //Om input finns som en nyckel i listan vehicles - returnera det fordonet,
+                if (vehicles.TryGetValue(inputRegPlate, out Vehicle vehicle))                               //Om input finns som en nyckel i listan vehicles - hämtar det fordonet,
                 {
-                    TimeSpan parkedTime = DateTime.Now - vehicle.StartParking;                              //Räknar ut TimeSpan 
-                    double parkedSeconds = parkedTime.TotalSeconds;                                         //.TS egenskap som räknar sek.
+                    TimeSpan parkedTime = DateTime.Now - vehicle.StartParking;                              //Räknar ut tidsskillnad
+                    double parkedSeconds = parkedTime.TotalSeconds;                                         //.TS egenskap i TimeSpan som räknar i sek.
 
                     Console.WriteLine($"\nYour vehicle with the registration number {inputRegPlate} is being signed out of the garage. It has been parked since {vehicle.StartParking} " +
                                       $"and the price is {Math.Round((parkedSeconds * 1) * (vehicle.ParkingSpotsUsed))}(for the {Math.Round(parkedSeconds)} seconds it was parked).\n");//Math.Round avrundar 2.5 blir 2, 2.51 blir 3(.Floor för att avrunda nedåt).
@@ -128,17 +128,18 @@ namespace EA_ParkingGarageVGUppgift
         internal void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)
         {
             Console.WriteLine($"Currently parked vehicles: ");
+
             foreach (var item in vehicles)                                                              //går igenom Dict
             {
                 Vehicle vehicle = item.Value;                                                           //sparar värdet på det aktuella fordonet i vehicle.
 
                 Console.Write("Plats ");
 
-                for (int i = 0; i < vehicle.ParkedInNr.Count; i++)                                      //Nödvändigt för bus
+                for (int i = 0; i < vehicle.ParkedInNr.Count; i++)                                      //går igenom pplatser som tilldelats fordonet
                 {
                     Console.Write(vehicle.ParkedInNr[i]);
 
-                    if (i < vehicle.ParkedInNr.Count - 1)                                               //Om fordonet behöver två platser och ett varv i loopen(en utskrift av plats) redan har skett.
+                    if (i < vehicle.ParkedInNr.Count - 1)                                               // Kontrollerar om det finns fler parkeringsplatsnummer att skriva ut.
                     {
                         Console.Write(", ");                                                            // komma mellan numren, men inte efter det sista
                     }
@@ -146,7 +147,7 @@ namespace EA_ParkingGarageVGUppgift
 
                 Console.Write($": {vehicle.GetType().Name} - {vehicle.RegPlate} - parking started: {vehicle.StartParking} - {vehicle.VehicleColor} - ");
 
-                vehicle.PrintVehicleInfo();                                                             //anrop av metod i det specifika objektet. P
+                vehicle.PrintVehicleInfo();                                                             //anrop av metod i det specifika objektet. Polymorfism kan nyttjas utifrån fordonstypen
 
             }
         }
