@@ -5,8 +5,7 @@
         internal static void Main(string[] args)
         {
             ParkingGarage parkingGarage = new ParkingGarage();                                                                        
-            Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();                                                   
-            Vehicle vehicle = new Vehicle();                                                                                          
+            Dictionary<string, Vehicle> vehicles = new Dictionary<string, Vehicle>();                                                                                                                                           
 
             while (true)
             {
@@ -19,7 +18,7 @@
                     case 'c':
                     case 'm':
                     case 'b':
-                        Vehicle newVehicle = vehicle.ChooseVehicle(input);                                                              
+                        Vehicle newVehicle = Vehicle.ChooseVehicle(input);                                                              
                         if (newVehicle != null && parkingGarage.ParkVehicle(newVehicle))                                                //Null-koll, försök att parkera fordonsojbekt.
                         {
                             vehicles.Add(newVehicle.RegPlate, newVehicle);                                                              

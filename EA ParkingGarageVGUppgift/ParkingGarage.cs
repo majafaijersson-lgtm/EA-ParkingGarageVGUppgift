@@ -111,9 +111,9 @@ namespace EA_ParkingGarageVGUppgift
             }
         }
 
-        internal void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)
+        internal void PrintParkedInfo(Dictionary<string, Vehicle> vehicles)                                                                                                 
         {
-            Console.WriteLine($"Currently parked vehicles: ");
+            Console.WriteLine($"Currently parked vehicles: ");                                                                                                                  //Feedback Micke - hade gärna sett sortering i sifferordning(pplatsnr).
 
             foreach (var item in vehicles)                                                             
             {

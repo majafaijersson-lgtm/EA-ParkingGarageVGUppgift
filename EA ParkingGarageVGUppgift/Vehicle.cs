@@ -20,7 +20,7 @@ namespace EA_ParkingGarageVGUppgift
             ParkedInNr = new List<int>();
         }
 
-        internal Vehicle ChooseVehicle(char input)
+        internal static Vehicle ChooseVehicle(char input)
         {
             bool electricCar = false;
             Vehicle vehicle;                                                                                            
