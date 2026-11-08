@@ -132,7 +132,6 @@ namespace EA_ParkingGarageVGUppgift
                 }
 
                 vehicle.PrintVehicleInfo();                                                             
-
             }
         }
     }
