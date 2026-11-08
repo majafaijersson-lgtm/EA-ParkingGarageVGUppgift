@@ -10,7 +10,7 @@ namespace EA_ParkingGarageVGUppgift
         internal string RegPlate { get; }                                                                           
         internal string VehicleColor { get; }
         internal virtual double ParkingSpotsUsed { get; }                                                               //Override i subclasser. double(dec)
-        internal List<int> ParkedInNr { get; set; }                                                                     
+        internal List<int> ParkedInNr { get; }                                                                     
         internal DateTime StartParking { get; set; }
 
         internal Vehicle()
@@ -23,38 +23,37 @@ namespace EA_ParkingGarageVGUppgift
         internal Vehicle ChooseVehicle(char input)
         {
             bool electricCar = false;
-            Vehicle vehicle;                                                                                            //Deklarerar ny variabel av typen V
+            Vehicle vehicle;                                                                                            
 
             switch (input)
             {
                 case 'c':
                     Console.Write("Is your car an electric car? Press \"Y\" if it is. Press \"N\" if it is not.");
-                    char isElectricCar = Console.ReadKey(true).KeyChar;
+                    char isElectricCar = char.ToLower(Console.ReadKey(true).KeyChar);
 
-                    while (isElectricCar != 'y' && isElectricCar != 'n')                                                //hanterar felinmatning
+                    while (isElectricCar != 'y' && isElectricCar != 'n')                                                //om felinmatning sker, fortsätter loopen.
                     {
                         Console.Write("Please enter \"N\" for no, or \"Y\" yes.");
-                        isElectricCar = Console.ReadKey(true).KeyChar;
+                        isElectricCar = char.ToLower(Console.ReadKey(true).KeyChar);
                     }
 
                     if (isElectricCar == 'y')
                     {
                         electricCar = true;
                     }
-
-                    if (isElectricCar == 'n')                                                                           //Räcker med else - men för tydlighet
+                    else
                     {
                         electricCar = false;
                     }
-
-                    vehicle = new Car(electricCar);                                                                     //Skapar nytt objekt av redan deklarerad variabel. Subklass ärver från basklass
+                    
+                    vehicle = new Car(electricCar);                                                                     
                     break;
 
                 case 'm':
                     Console.Write("What kind of brand is your motorcycle? ");                                           
                     string motorcycleBrand = Console.ReadLine();
 
-                    while (motorcycleBrand == "")                                                                       //Felhantering tom sträng string.IsNullOrWhiteSPace() -> tom, utan värde eller blanksteg
+                    while (motorcycleBrand == "")                                                                       //Felhantering kan även ske med string.IsNullOrWhiteSPace() -> tom, utan värde eller blanksteg
                     {
                         Console.Write("Please enter a motorcycle brand: ");
                         motorcycleBrand = Console.ReadLine();
@@ -68,7 +67,7 @@ namespace EA_ParkingGarageVGUppgift
 
                     int numberOfPassengers;
 
-                    while (!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1)         //inmatning är int & nOP inte är < 1
+                    while (!int.TryParse(Console.ReadLine(), out numberOfPassengers) || numberOfPassengers < 1)         
                     {
                         Console.Write("Please enter av valid number for the amount of passenger seats in the bus.");
                     }
@@ -77,20 +76,19 @@ namespace EA_ParkingGarageVGUppgift
                     break;
 
                 default:
-                    return null;                                                                                        //Om ingen annat case uppfylls 
+                    return null;                                                                                        
             }
-
             return vehicle;
         }
 
-        internal virtual void PrintVehicleInfo()                                                                        //P-metod
+        internal virtual void PrintVehicleInfo()                                                                   
         {
 
         }
 
         private class Car : Vehicle
         {
-            internal override double ParkingSpotsUsed { get; }                                                      //Jag vill inte att antalet platser ska gå att ändra -> get; Åsidosätter BC.
+            internal override double ParkingSpotsUsed { get; }                                                      
             internal bool IsElectricCar { get; set; }
 
             internal Car(bool electricCar)
