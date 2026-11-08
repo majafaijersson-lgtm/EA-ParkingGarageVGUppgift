@@ -7,10 +7,10 @@ namespace EA_ParkingGarageVGUppgift
 {
     internal class Vehicle
     {
-        internal string RegPlate { get; }                                                                               //get;
+        internal string RegPlate { get; }                                                                           
         internal string VehicleColor { get; }
         internal virtual double ParkingSpotsUsed { get; }                                                               //Override i subclasser. double(dec)
-        internal List<int> ParkedInNr { get; set; }                                                                     //List pga buss. set; ändring efter skapandet.
+        internal List<int> ParkedInNr { get; set; }                                                                     
         internal DateTime StartParking { get; set; }
 
         internal Vehicle()
