@@ -83,10 +83,10 @@ namespace EA_ParkingGarageVGUppgift
 
         internal virtual void PrintVehicleInfo()                                                                   
         {
-
+            Console.Write($": {GetType().Name} - {RegPlate} - parking started: {StartParking} - {VehicleColor} - ");
         }
 
-        private class Car : Vehicle
+        internal class Car : Vehicle
         {
             internal override double ParkingSpotsUsed { get; }                                                      
             internal bool IsElectricCar { get; set; }
@@ -99,6 +99,7 @@ namespace EA_ParkingGarageVGUppgift
 
             internal override void PrintVehicleInfo()
             {
+                base.PrintVehicleInfo();
                 Console.WriteLine(IsElectricCar ? "electric car." : "not an electric vehicle.");
             }
         }    
@@ -115,6 +116,7 @@ namespace EA_ParkingGarageVGUppgift
             }
             internal override void PrintVehicleInfo()
             {
+                base.PrintVehicleInfo();
                 Console.Write($"{MotorcycleBrand}.\n");
             }
         }
@@ -131,6 +133,7 @@ namespace EA_ParkingGarageVGUppgift
             }
             internal override void PrintVehicleInfo()
             {
+                base.PrintVehicleInfo();
                 Console.Write($"{NumberOfPassengers}.\n");
             }
         }

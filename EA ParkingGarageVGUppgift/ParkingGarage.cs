@@ -131,8 +131,6 @@ namespace EA_ParkingGarageVGUppgift
                     }
                 }
 
-                Console.Write($": {vehicle.GetType().Name} - {vehicle.RegPlate} - parking started: {vehicle.StartParking} - {vehicle.VehicleColor} - ");
-
                 vehicle.PrintVehicleInfo();                                                             
 
             }
